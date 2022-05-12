@@ -1,21 +1,26 @@
 package main
 
 import (
-	"log"
 	"os"
 	"os/exec"
 )
 
-func main() {
-	command := "date"
-
-	cmdObj := exec.Command(command)
+func executeCommand(command string, argsArr []string) error {
+	cmdObj := exec.Command(command, argsArr...)
 
 	cmdObj.Stdout = os.Stdout
 	cmdObj.Stderr = os.Stderr
 
 	err := cmdObj.Run()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
+
+	return nil
+}
+
+func main() {
+	command := "ls"
+
+	executeCommand(command, []string{"-l"})
 }
